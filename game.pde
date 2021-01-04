@@ -24,6 +24,25 @@ void game() {
   }
   myShip.show();
   myShip.act();
+
+  println(asteroidCounter());
+  if (asteroidCounter() == 0) {
+    mode = WIN;
+  }
+}
+
+int asteroidCounter() {
+  int count = 0;
+  int i = 0;
+  while (i < myObjects.size()) {
+    GameObject myObj = myObjects.get(i);
+    if (myObj instanceof Asteroid) {
+      count++;
+    }
+    i++;
+  }
+
+  return count;
 }
 
 void gameClicks() {
@@ -118,40 +137,40 @@ class Bullet extends GameObject {
 }
 
 class Enemy extends GameObject {
-  
+
   PVector direction;
   int threshold;
   int shotTimer;
   float appear;
-  
+
   Enemy() {
     float i = 0;
-    location = new PVector(-size, random(0,800));
+    location = new PVector(-size, random(0, 800));
     size = 50;
     lives = 1;
     shotTimer = 0;
     threshold = 60;
     appear = 0;
   }
-  
+
   void show() {
-   fill(255,0,0);
-   ellipse(location.x,location.y,50,50);
+    fill(255, 0, 0);
+    ellipse(location.x, location.y, 50, 50);
   }
-  
+
   void act() {
-   if (appear <= 0) {
-    location.x = location.x+5;
-    if(location.x >= width+size) {
-     location.x = 0;
-     location.y = random(0,800);
+    if (appear <= 0) {
+      location.x = location.x+5;
+      if (location.x >= width+size) {
+        location.x = 0;
+        location.y = random(0, 800);
+      }
     }
-   }
-   if (shotTimer >= threshold) {
-    myObjects.add(new Bullet());
-    shotTimer = 0;
-   }
-   shotTimer++;
+    if (shotTimer >= threshold) {
+      myObjects.add(new Bullet());
+      shotTimer = 0;
+    }
+    shotTimer++;
   }
 }
 
